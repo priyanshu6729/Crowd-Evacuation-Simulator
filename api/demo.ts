@@ -1,17 +1,16 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { DemoResponse } from '../shared/api';
+// Remove the relative import and define the type inline
+// import { DemoResponse } from '../shared/api';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
-  const response: DemoResponse & {
-    status: string;
-    env: string;
-  } = {
+  // Define response type inline
+  const response = {
     status: 'online',
     message: 'Pixel Realm API is running',
     env: process.env.NODE_ENV || 'development'
   };
   
-  // Set CORS headers to allow frontend to access this API
+  // CORS headers remain the same
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
@@ -20,7 +19,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
   
-  // Handle OPTIONS request for CORS preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
